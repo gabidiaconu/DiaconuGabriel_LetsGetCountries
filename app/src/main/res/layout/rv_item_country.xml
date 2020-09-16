@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="country"
+            type="com.lgcinterview.letsgetcountries.data.models.Country" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/country_icon_image_view"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_margin="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/country_name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"
+            android:text="@{country.name}"
+            app:layout_constraintStart_toEndOf="@id/country_icon_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/country_capital_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{country.capital}"
+            app:layout_constraintStart_toEndOf="@id/country_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/country_capital_text_view"
+            />
+
+        <TextView
+            android:id="@+id/country_region_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{country.capital}"
+            app:layout_constraintStart_toEndOf="@id/country_icon_image_view"
+            app:layout_constraintTop_toBottomOf="@id/country_capital_text_view"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
