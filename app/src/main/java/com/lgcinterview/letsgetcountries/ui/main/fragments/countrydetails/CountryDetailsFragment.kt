@@ -9,8 +9,10 @@ import androidx.databinding.DataBindingUtil
 import com.lgcinterview.letsgetcountries.R
 import com.lgcinterview.letsgetcountries.data.models.Country
 import com.lgcinterview.letsgetcountries.databinding.CountryDetailsFragmentBinding
+import com.lgcinterview.letsgetcountries.di.kodeinViewModel
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
+
 
 
 class CountryDetailsFragment : Fragment(), KodeinAware {
@@ -32,7 +34,7 @@ class CountryDetailsFragment : Fragment(), KodeinAware {
 
     override val kodein by kodein()
 
-    private lateinit var viewModel: CountryDetailsViewModel
+    private val viewModel: CountryDetailsViewModel by kodeinViewModel()
 
     private lateinit var binding : CountryDetailsFragmentBinding
 
@@ -46,8 +48,19 @@ class CountryDetailsFragment : Fragment(), KodeinAware {
             container,
             false)
 
+        binding.apply {
+            lifecycleOwner = this@CountryDetailsFragment
+        }
+
+        binding.viewModel = viewModel
+
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.selectedCountry = arguments?.getSerializable(COUNTRY_ENTITY) as Country
+    }
 
 }

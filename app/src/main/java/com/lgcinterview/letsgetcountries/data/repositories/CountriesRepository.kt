@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import java.lang.Exception
 
 class CountriesRepository(
     private val retrofitSource: RetrofitSource,
@@ -17,28 +18,27 @@ class CountriesRepository(
     fun getAllCountries() : Flow<SealedResources<List<Country>>> {
         return flow{
 
-            emit(SealedResources.Loading(""))
-
            if (countryDao.getCountriesListSize() > 1){
                val directFromDbData = countryDao.getAllCountries()
                emit(SealedResources.Success<List<Country>>(directFromDbData))
            } else {
 
-               emit(SealedResources.Loading(""))
+               try {
+                   val apiBody = retrofitSource.retrofitRequests.getAllCountries()
 
-               val apiBody = retrofitSource.retrofitRequests.getAllCountries()
+                   if (apiBody.size.compareTo(0) > 0) {
+                       countryDao.deleteAllAndInsert(apiBody)
 
-               emit(SealedResources.Loading(""))
+                       val directFromDbData = countryDao.getAllCountries()
+                       emit(SealedResources.Success<List<Country>>(directFromDbData))
 
-               countryDao.deleteAllAndInsert(apiBody)
-
-               emit(SealedResources.Loading(""))
-
-               val directFromDbData = countryDao.getAllCountries()
-
-               emit(SealedResources.Success<List<Country>>(directFromDbData))
+                   } else {
+                       emit(SealedResources.Failure("Error receiving data from the server!"))
+                   }
+               } catch (e : Exception) {
+                   emit(SealedResources.Failure("Error receiving data from the server!"))
+               }
            }
-
         }.flowOn(Dispatchers.IO)
     }
 }

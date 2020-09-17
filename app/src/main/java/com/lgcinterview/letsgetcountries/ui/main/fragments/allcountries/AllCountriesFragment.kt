@@ -67,12 +67,18 @@ class AllCountriesFragment : Fragment(), KodeinAware, IRecycleViewItemClicked {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel.loadingState()
+
         viewModel.listOfAllCountries.observe(
             activity as AppCompatActivity,
             Observer { result ->
                 when (result) {
                     is SealedResources.Success<*> -> {
                         listAdapter.submitList(result.data)
+                        viewModel.dataCollectedSuccesfulyState()
+                    }
+                    is SealedResources.Failure -> {
+                        viewModel.errorState(result.msg)
                     }
                 }
             }

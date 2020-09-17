@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LetsGetCountries</string>
+    <string name="capital_country_label">Capital: + @{country.capital}</string>
+    <string name="region_country_label">Region: + @{country.region}</string>
+    <string name="capital_label">Capital:</string>
+    <string name="region_label">Region:</string>
 </resources>

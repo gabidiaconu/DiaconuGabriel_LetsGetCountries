@@ -30,4 +30,9 @@ interface CountryDao {
     @Query("SELECT count(*) FROM countries")
     suspend fun getCountriesListSize() : Int
 
+    @Query("UPDATE countries SET isFavorite = :auxBoolean")
+    suspend fun unfavoriteAllCountries(auxBoolean : Boolean)
+
+    @Query("UPDATE countries SET isFavorite = :isFavorite WHERE id = :id")
+    suspend fun makeCountryFavorite(id : Long, isFavorite : Boolean)
 }

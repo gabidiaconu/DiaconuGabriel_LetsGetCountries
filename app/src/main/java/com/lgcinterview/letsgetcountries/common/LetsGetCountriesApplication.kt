@@ -31,7 +31,7 @@ class LetsGetCountriesApplication : Application(), KodeinAware{
 
         bindViewModel<AllCountriesViewModel>() with provider { AllCountriesViewModel(instance()) }
         bindViewModel<CountryDetailsViewModel>() with provider {
-            CountryDetailsViewModel()
+            CountryDetailsViewModel(instance())
         }
 
     }
